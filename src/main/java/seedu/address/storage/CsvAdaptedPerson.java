@@ -1,15 +1,22 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Age;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Gender;
 import seedu.address.model.person.IsDone;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.interests.Interest;
+import seedu.address.model.person.interests.InterestsList;
 
 /**
  * CSV-friendly version of {@link Person}.
@@ -26,6 +33,12 @@ public class CsvAdaptedPerson {
     private String phone;
     private String email;
     private String doneString;
+
+    //Fields that houten added. Pls add this to the csv portion as well.
+    private String address;
+    private String gender;
+    private String age;
+    private final List<Interest> interests = new ArrayList<>();
 
     /**
      * Constructs a {@code CsvAdaptedPerson} with the given person details.
@@ -44,6 +57,14 @@ public class CsvAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         doneString = source.getIsDone().value ? "TRUE" : "FALSE";
+        address = source.getAddress().value;
+        gender = source.getGender().value;
+        age = source.getAge().value;
+
+        //For this I somewhat followed the style of JsonAdapted person
+        //For the actual JsonAdaptedPerson, the interests portion is similar to how
+        //they originally implemented tag
+        interests.addAll(source.getInterests().getAllInterests());
     }
 
     /**
@@ -93,12 +114,37 @@ public class CsvAdaptedPerson {
         }
         final Email modelEmail = new Email(email);
 
-        if (!(doneString.equals("TRUE") || doneString.equals("FALSE") || doneString.equals(""))) {
+        if (!(IsDone.isValidIsDone(doneString))) {
             throw new IllegalValueException(IsDone.MESSAGE_CONSTRAINTS);
         }
+        final IsDone modelIsDone = new IsDone(doneString);
 
-        final IsDone modelIsDone = new IsDone(doneString.equals("TRUE"));
+        //Houten added this
 
-        return new Person(modelName, modelPhone, modelEmail, modelIsDone);
+        if (!Address.isValidAddress(address)) {
+            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        }
+
+        final Address modelAddress = new Address(address);
+
+        if (!Gender.isValidGender(gender)) {
+            throw new IllegalValueException(Gender.MESSAGE_CONSTRAINTS);
+        }
+
+        final Gender modelGender = new Gender(gender);
+
+        if (!Age.isValidAge(age)) {
+            throw new IllegalValueException(Age.MESSAGE_CONSTRAINTS);
+        }
+
+        final Age modelAge = new Age(age);
+
+        final InterestsList modelInterests = new InterestsList();
+        for (Interest interest : interests) {
+            modelInterests.addInterest(interest);
+        }
+
+        return new Person(modelName, modelPhone, modelEmail, modelIsDone, modelAddress,
+                modelGender, modelAge, modelInterests);
     }
 }

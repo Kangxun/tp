@@ -11,9 +11,13 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.category.Category;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Age;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Gender;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.interests.Interest;
+import seedu.address.model.person.interests.InterestsList;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -68,21 +72,6 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String address} into an {@code Address}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code address} is invalid.
-     */
-    public static Address parseAddress(String address) throws ParseException {
-        requireNonNull(address);
-        String trimmedAddress = address.trim();
-        if (!Address.isValidAddress(trimmedAddress)) {
-            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
-        }
-        return new Address(trimmedAddress);
-    }
-
-    /**
      * Parses a {@code String email} into an {@code Email}.
      * Leading and trailing whitespaces will be trimmed.
      *
@@ -95,6 +84,88 @@ public class ParserUtil {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
         return new Email(trimmedEmail);
+    }
+
+    /**
+     * Parses a {@code String address} into an {@code Address}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code address} is invalid.
+     */
+    public static Address parseAddress(String address) throws ParseException {
+        if (address == null) {
+            return new Address(null);
+        }
+
+        String trimmedAddress = address.trim();
+        if (!Address.isValidAddress(trimmedAddress)) {
+            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
+        }
+        return new Address(trimmedAddress);
+    }
+
+    /**
+     * Parses a {@code String gender} into an {@code Gender}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code gender} is invalid.
+     */
+    public static Gender parseGender(String gender) throws ParseException {
+        if (gender == null) {
+            return new Gender(null);
+        }
+
+        String trimmedGender = gender.trim();
+        if (!Gender.isValidGender(trimmedGender)) {
+            throw new ParseException(Gender.MESSAGE_CONSTRAINTS);
+        }
+        return new Gender(trimmedGender);
+    }
+
+    /**
+     * Parses a {@code String age} into an {@code Age}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code age} is invalid.
+     */
+    public static Age parseAge(String age) throws ParseException {
+        if (age == null) {
+            return new Age(null);
+        }
+
+        String trimmedAge = age.trim();
+        if (!Age.isValidAge(trimmedAge)) {
+            throw new ParseException(Age.MESSAGE_CONSTRAINTS);
+        }
+        return new Age(trimmedAge);
+    }
+
+    /**
+     * Parses a {@code String interest} into a {@code Interest}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code interest} is invalid.
+     */
+    public static Interest parseInterest(String interest) throws ParseException {
+        requireNonNull(interest);
+        String trimmedInterest = interest.trim();
+
+        if (!Interest.isValidInterest(trimmedInterest)) {
+            throw new ParseException(Interest.MESSAGE_CONSTRAINTS);
+        }
+        return new Interest(trimmedInterest);
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     */
+    public static InterestsList parseInterests(Collection<String> interests) throws ParseException {
+        requireNonNull(interests);
+        final InterestsList interestsList = new InterestsList();
+        for (String interest : interests) {
+            interestsList.addInterest(parseInterest(interest));
+        }
+        return interestsList;
     }
 
     /**

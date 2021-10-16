@@ -264,7 +264,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage potentially interested clients faster than a typical mouse/GUI driven app 
+**Value proposition**: manage potentially interested clients faster than a typical mouse/GUI driven app
 
 
 ### User stories
@@ -303,10 +303,10 @@ Guarantees: New person will be added to the address book
 
 **Extensions**
 
-* 1a. User enters the command wrongly 
+* 1a. User enters the command wrongly
 
   * 1a1. Command box displays error message
-  
+
     Use case resumes at step 1
 
 **Use Case 2: List persons**

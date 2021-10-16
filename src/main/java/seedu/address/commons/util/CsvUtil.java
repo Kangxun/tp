@@ -99,6 +99,7 @@ public class CsvUtil {
         try {
             return Optional.of(new CsvAdaptedPerson(rowStringPerson).toModelType());
         } catch (IllegalValueException e) {
+            logger.warning("CSV File Import error : In row " + rowNumber + " : " + e);
             return Optional.empty();
         }
     }

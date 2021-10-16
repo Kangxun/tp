@@ -9,13 +9,13 @@ public class IsDoneTest {
 
     @Test
     public void equals() {
-        IsDone isDone = new IsDone(false);
+        IsDone isDone = new IsDone("false");
 
         // same object -> returns true
         assertTrue(isDone.equals(isDone));
 
         // same values -> returns true
-        IsDone remarkCopy = new IsDone(isDone.value);
+        IsDone remarkCopy = new IsDone(isDone.value ? "TRUE" : "FALSE");
         assertTrue(isDone.equals(remarkCopy));
 
         // different types -> returns false
@@ -25,7 +25,7 @@ public class IsDoneTest {
         assertFalse(isDone.equals(null));
 
         // different remark -> returns false
-        IsDone differentIsDone = new IsDone(true);
+        IsDone differentIsDone = new IsDone("true");
         assertFalse(isDone.equals(differentIsDone));
     }
 }

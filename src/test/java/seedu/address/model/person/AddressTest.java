@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -9,8 +10,9 @@ import org.junit.jupiter.api.Test;
 public class AddressTest {
 
     @Test
-    public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Address(null));
+    public void constructor_null_createsDefaultAddress() {
+        String noAddress = "N.A";
+        assertEquals(new Address(null).value, noAddress);
     }
 
     @Test
@@ -21,9 +23,6 @@ public class AddressTest {
 
     @Test
     public void isValidAddress() {
-        // null address
-        assertThrows(NullPointerException.class, () -> Address.isValidAddress(null));
-
         // invalid addresses
         assertFalse(Address.isValidAddress("")); // empty string
         assertFalse(Address.isValidAddress(" ")); // spaces only

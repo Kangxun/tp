@@ -85,8 +85,9 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_done() throws Exception {
-        assertTrue(parser.parseCommand(DoneCommand.COMMAND_WORD) instanceof DoneCommand);
+    public void parseCommand_done() {
+        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE), ()
+            -> parser.parseCommand(DoneCommand.COMMAND_WORD));
     }
 
     @Test

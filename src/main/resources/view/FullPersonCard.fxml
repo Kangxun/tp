@@ -2,86 +2,80 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox id="cardPane" fx:id="cardPane" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
-  <GridPane HBox.hgrow="ALWAYS">
-    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
-    </columnConstraints>
-      <rowConstraints>
-         <RowConstraints />
-      </rowConstraints>
-      <children>
-         <VBox fx:id="fullPersonDetails" alignment="CENTER_LEFT" minHeight="105" GridPane.vgrow="ALWAYS">
-            <padding>
-               <Insets bottom="5" left="15" right="5" top="5" />
-            </padding>
-            <children>
-               <HBox alignment="CENTER_LEFT" spacing="5">
-                  <VBox.margin>
-                     <Insets bottom="10.0" />
-                  </VBox.margin>
-                  <children>
-                     <Label fx:id="id" styleClass="cell_big_label">
-                        <minWidth>
-                           <Region fx:constant="USE_PREF_SIZE" />
-                        </minWidth>
-                     </Label>
-                     <Label fx:id="name" styleClass="cell_big_label" text="\$first" wrapText="true" />
-                  </children>
-               </HBox>
-               <FlowPane fx:id="tags" />
-               <Label fx:id="phoneHeader" text="Phone:" />
-               <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" wrapText="true">
-                  <VBox.margin>
-                     <Insets bottom="10.0" left="20.0" />
-                  </VBox.margin>
-               </Label>
-               <Label fx:id="emailHeader" text="Email:" />
-               <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true">
-                  <VBox.margin>
-                     <Insets bottom="10.0" left="20.0" />
-                  </VBox.margin>
-               </Label>
-               <Label fx:id="calledHeader" text="Called:" />
-               <Label fx:id="isDone" styleClass="cell_small_label" text="\$isDone" wrapText="true">
-                  <VBox.margin>
-                     <Insets bottom="10.0" left="20.0" />
-                  </VBox.margin>
-               </Label>
-               <Label fx:id="addressHeader" text="Address:" />
-               <Label fx:id="address" text="\$address" wrapText="true">
-                  <VBox.margin>
-                     <Insets bottom="10.0" left="20.0" />
-                  </VBox.margin>
-               </Label>
-               <Label fx:id="genderHeader" text="Gender:" />
-               <Label fx:id="gender" text="\$gender" wrapText="true">
-                  <VBox.margin>
-                     <Insets bottom="10.0" left="20.0" />
-                  </VBox.margin>
-               </Label>
-               <Label fx:id="ageHeader" text="Age:" />
-               <Label fx:id="age" text="\$age" wrapText="true">
-                  <VBox.margin>
-                     <Insets bottom="10.0" left="20.0" />
-                  </VBox.margin>
-               </Label>
-               <Label fx:id="interestHeader" text="Interests:" />
-               <Label fx:id="interests" text="Interested in" wrapText="true">
-                  <padding>
-                     <Insets left="20.0" />
-                  </padding>
-               </Label>
-            </children>
-         </VBox>
-      </children>
-  </GridPane>
-</HBox>
+<ScrollPane fx:id="fullPersonDetails" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox fx:id="fullPersonContainer" alignment="CENTER_LEFT">
+         <padding>
+            <Insets bottom="5" left="15" right="5" top="5" />
+         </padding>
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="5">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="20.0" />
+               </VBox.margin>
+               <children>
+                  <Label fx:id="id" styleClass="cell_big_label">
+                     <minWidth>
+                        <Region fx:constant="USE_PREF_SIZE" />
+                     </minWidth>
+                  </Label>
+                  <Label fx:id="name" styleClass="cell_big_label" text="\$first" wrapText="true" />
+               </children>
+            </HBox>
+            <FlowPane fx:id="tags" />
+            <Label fx:id="phoneHeader" text="Phone:" />
+            <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="emailHeader" text="Email:" />
+            <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="calledHeader" text="Called:" />
+            <Label fx:id="isDone" styleClass="cell_small_label" text="\$isDone" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="addressHeader" text="Address:" />
+            <Label fx:id="address" text="\$address" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="genderHeader" text="Gender:" />
+            <Label fx:id="gender" text="\$gender" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="ageHeader" text="Age:" />
+            <Label fx:id="age" text="\$age" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="interestHeader" text="Interests:" />
+            <Label fx:id="interests" text="Interested in" wrapText="true">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="buffer" />
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

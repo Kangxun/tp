@@ -1,9 +1,20 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.AGE_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.AGE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.GENDER_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.GENDER_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.INTEREST_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_AGE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_GENDER_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_INTEREST_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
@@ -22,10 +33,14 @@ import static seedu.address.testutil.TypicalPersons.BOB;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Age;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Gender;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.interests.Interest;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandParserTest {
@@ -34,29 +49,48 @@ public class AddCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         Person expectedPerson = new PersonBuilder(BOB).build();
-
+        String userInput = PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + GENDER_DESC_BOB + AGE_DESC_BOB + INTEREST_DESC_BOB;
         // whitespace only preamble
-        assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB,
-                new AddCommand(expectedPerson));
+        assertParseSuccess(parser, userInput, new AddCommand(expectedPerson));
 
         // multiple names - last name accepted
-        assertParseSuccess(parser, NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB,
-                 new AddCommand(expectedPerson));
+        userInput = NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + GENDER_DESC_BOB + AGE_DESC_BOB + INTEREST_DESC_BOB;
+        assertParseSuccess(parser, userInput, new AddCommand(expectedPerson));
 
         // multiple phones - last phone accepted
-        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_BOB,
-                 new AddCommand(expectedPerson));
+        userInput = NAME_DESC_BOB + PHONE_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + GENDER_DESC_BOB + AGE_DESC_BOB + INTEREST_DESC_BOB;
+        assertParseSuccess(parser, userInput, new AddCommand(expectedPerson));
 
         // multiple emails - last email accepted
-        assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_AMY + EMAIL_DESC_BOB,
-                new AddCommand(expectedPerson));
+        userInput = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_AMY + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + GENDER_DESC_BOB + AGE_DESC_BOB + INTEREST_DESC_BOB;
+        assertParseSuccess(parser, userInput, new AddCommand(expectedPerson));
+
+        // multiple addresses - last address accepted
+        userInput = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
+                + ADDRESS_DESC_BOB + GENDER_DESC_BOB + AGE_DESC_BOB + INTEREST_DESC_BOB;
+        assertParseSuccess(parser, userInput, new AddCommand(expectedPerson));
+
+        // multiple genders - last gender accepted
+        userInput = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                + GENDER_DESC_AMY + GENDER_DESC_BOB + AGE_DESC_BOB + INTEREST_DESC_BOB;
+        assertParseSuccess(parser, userInput, new AddCommand(expectedPerson));
+
+        // multiple ages - last age accepted
+        userInput = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                + GENDER_DESC_BOB + AGE_DESC_AMY + AGE_DESC_BOB + INTEREST_DESC_BOB;
+        assertParseSuccess(parser, userInput, new AddCommand(expectedPerson));
+
     }
 
     @Test
     public void parse_optionalFieldsMissing_success() {
-        // zero tags
+        // zero address, gender, age, interests
         Person expectedPerson = new PersonBuilder(AMY).build();
-        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY ,
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY,
                 new AddCommand(expectedPerson));
     }
 
@@ -84,11 +118,31 @@ public class AddCommandParserTest {
                 Name.MESSAGE_CONSTRAINTS);
 
         // invalid phone
-        assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB ,
+        assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB,
                 Phone.MESSAGE_CONSTRAINTS);
 
         // invalid email
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC ,
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC,
                 Email.MESSAGE_CONSTRAINTS);
+
+        // invalid address
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC,
+                Address.MESSAGE_CONSTRAINTS);
+
+        // invalid gender
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_GENDER_DESC,
+                Gender.MESSAGE_CONSTRAINTS);
+
+        // invalid age
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_AGE_DESC,
+                Age.MESSAGE_CONSTRAINTS);
+
+        // invalid interests
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_INTEREST_DESC,
+                Interest.MESSAGE_CONSTRAINTS);
     }
 }

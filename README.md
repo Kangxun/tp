@@ -5,7 +5,7 @@
 # CallMeMaybe
 ___
 * This is **a project by Software Engineering (SE) students**.<br>
-* The project simulates an ongoing software project for a desktop application _designed for freelance telemarketers_ who need an easy to way to catalog their contacts. 
+* The project simulates an ongoing software project for a desktop application _designed for freelance telemarketers_ who need an easy to way to catalog their contacts.
   * It is **written in OOP fashion**. It provides a **reasonably well-written** code base **bigger** (around 6 KLoC) than what students usually write in beginner-level SE modules, without being overwhelmingly big.
   * It comes with a **decent level of user and developer documentation**.
 * It is named `CallMeMaybe` because it tracks who have been called in the huge list of people to call.

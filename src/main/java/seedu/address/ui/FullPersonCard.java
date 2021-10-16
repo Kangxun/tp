@@ -5,8 +5,9 @@ import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
 
@@ -29,7 +30,9 @@ public class FullPersonCard extends UiPart<Region> {
     private Person person;
 
     @FXML
-    private HBox cardPane;
+    private ScrollPane fullPersonDetails;
+    @FXML
+    private VBox fullPersonContainer;
     @FXML
     private Label name;
     @FXML
@@ -58,7 +61,8 @@ public class FullPersonCard extends UiPart<Region> {
     public FullPersonCard(List<Person> persons, int displayedIndex, double windowWidth) {
         super(FXML);
 
-        cardPane.setPrefWidth(windowWidth / 3);
+        fullPersonDetails.setPrefWidth(windowWidth / 3);
+        //cardPane.setPrefWidth(windowWidth / 3);
         try {
             this.person = persons.get(displayedIndex - 1);
             id.setText(displayedIndex + ". ");
@@ -74,10 +78,10 @@ public class FullPersonCard extends UiPart<Region> {
                 isDone.setStyle("-fx-text-fill: red");
             }
 
-            address.setText(DEFAULT_FIELD);
-            gender.setText(DEFAULT_FIELD);
+            address.setText(person.getAddress().value);
+            gender.setText(person.getGender().value);
             age.setText(DEFAULT_FIELD);
-            interests.setText(DEFAULT_FIELD);
+            interests.setText(person.getInterests().toString());
         } catch (IndexOutOfBoundsException e) {
             createEmptyCard();
         }

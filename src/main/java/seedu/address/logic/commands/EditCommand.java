@@ -16,11 +16,15 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Age;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Gender;
 import seedu.address.model.person.IsDone;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.interests.InterestsList;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -93,8 +97,13 @@ public class EditCommand extends Command {
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         IsDone updatedIsDone = editPersonDescriptor.getIsDone().orElse(personToEdit.getIsDone());
+        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+        Gender updatedGender = editPersonDescriptor.getGender().orElse(personToEdit.getGender());
+        Age updatedAge = editPersonDescriptor.getAge().orElse(personToEdit.getAge());
+        InterestsList updatedInterests = editPersonDescriptor.getInterests().orElse(personToEdit.getInterests());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedIsDone);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedIsDone, updatedAddress,
+                updatedGender, updatedAge, updatedInterests);
     }
 
     @Override
@@ -124,6 +133,10 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private IsDone isDone;
+        private Address address;
+        private Gender gender;
+        private Age age;
+        private InterestsList interests;
 
         public EditPersonDescriptor() {}
 
@@ -136,13 +149,18 @@ public class EditCommand extends Command {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setIsDone(toCopy.isDone);
+            setAddress(toCopy.address);
+            setGender(toCopy.gender);
+            setAge(toCopy.age);
+            setInterests(toCopy.interests);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email);
+            return CollectionUtil.isAnyNonNull(name, phone, email, isDone, address,
+                    gender, age, interests);
         }
 
         public void setName(Name name) {
@@ -177,6 +195,38 @@ public class EditCommand extends Command {
             this.isDone = isDone;
         }
 
+        public void setAddress(Address address) {
+            this.address = address;
+        }
+
+        public Optional<Address> getAddress() {
+            return Optional.ofNullable(address);
+        }
+
+        public void setGender(Gender gender) {
+            this.gender = gender;
+        }
+
+        public Optional<Gender> getGender() {
+            return Optional.ofNullable(gender);
+        }
+
+        public void setAge(Age age) {
+            this.age = age;
+        }
+
+        public Optional<Age> getAge() {
+            return Optional.ofNullable(age);
+        }
+
+        public void setInterests(InterestsList interests) {
+            this.interests = interests;
+        }
+
+        public Optional<InterestsList> getInterests() {
+            return Optional.ofNullable(interests);
+        }
+
         @Override
         public boolean equals(Object other) {
             // short circuit if same object
@@ -195,7 +245,10 @@ public class EditCommand extends Command {
             return getName().equals(e.getName())
                     && getPhone().equals(e.getPhone())
                     && getEmail().equals(e.getEmail())
-                    && (getIsDone().equals(e.getIsDone()));
+                    && getIsDone().equals(e.getIsDone())
+                    && getAddress().equals(e.getAddress())
+                    && getGender().equals(e.getGender())
+                    && getAge().equals(e.getAge());
         }
     }
 }
